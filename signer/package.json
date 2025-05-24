@@ -1,0 +1,14 @@
+{
+  "name": "signer",
+  "version": "1.0.0",
+  "description": "Transaction signer Lambda function",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.0.0",
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "@aws-sdk/util-dynamodb": "^3.0.0",
+    "ethers": "^6.0.0",
+    "pg": "^8.11.0"
+  },
+  "devDependencies": {}
+} 

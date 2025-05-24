@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # Ethereum development environment using Anvil
+  anvil:
+    image: ghcr.io/foundry-rs/foundry:latest
+    entrypoint: ["anvil"]
+    command: ["--host", "0.0.0.0"]
+    ports:
+      - "8545:8545"
+    networks:
+      - localstack-network
+
+  # AWS LocalStack for local AWS service emulation
+  localstack:
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"            # LocalStack Gateway
+      - "4510-4559:4510-4559"  # external services port range
+    environment:
+      - SERVICES=s3,kinesis,lambda,secretsmanager,rds,iam,cloudformation,ec2,ssm
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - LAMBDA_EXECUTOR=docker
+      - PERSISTENCE=1
+      - DATA_DIR=/var/lib/localstack
+      - HOSTNAME_EXTERNAL=localhost
+      - CDK_ASSETS_BUCKET=cdk-hnb659fds-assets-000000000000-us-east-1
+      - S3_ENDPOINT_URL=http://localhost:4566
+      - S3_FORCE_PATH_STYLE=true
+    extra_hosts:
+      - "cdk-hnb659fds-assets-000000000000-us-east-1.localhost:127.0.0.1"
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - localstack-network
+
+volumes:
+  localstack_data:
+
+networks:
+  localstack-network:
+    driver: bridge 

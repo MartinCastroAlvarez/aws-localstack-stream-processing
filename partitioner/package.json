@@ -1,0 +1,8 @@
+{
+  "name": "partitioner",
+  "version": "1.0.0",
+  "description": "Firehose partitioner Lambda function",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {}
+} 
